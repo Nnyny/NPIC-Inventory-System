@@ -1,0 +1,7 @@
+{
+    "Item": true,
+    "House": true,
+    "User": true,
+    "Category": true,
+    "Stock": true
+}
