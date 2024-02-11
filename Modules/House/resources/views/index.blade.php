@@ -14,6 +14,7 @@
         </div>
 {{ Form::close() }}
 
+
 <br><br>
 @if(Session::has('house_delete'))
     <div class="alert alert-primary alert-dismissible">
@@ -66,6 +67,11 @@
         </table>
     </div>
 </div>
+
+<!-- Pagination -->
+{{ $houses->links('pagination::bootstrap-5');}}
+
+
 <!-- <script>
     $(".delete").click(function() {
         var form = $(this).closest('form');

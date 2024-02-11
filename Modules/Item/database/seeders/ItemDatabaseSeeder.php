@@ -3,6 +3,7 @@
 namespace Modules\Item\database\seeders;
 
 use Illuminate\Database\Seeder;
+use Modules\Item\app\Models\Item;
 
 class ItemDatabaseSeeder extends Seeder
 {
@@ -11,6 +12,6 @@ class ItemDatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // $this->call([]);
+        Item::factory()->count(5)->create();
     }
 }

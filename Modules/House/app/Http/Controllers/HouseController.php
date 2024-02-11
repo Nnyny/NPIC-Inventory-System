@@ -21,7 +21,7 @@ class HouseController extends Controller
      */
     public function index()
     {
-        $houses = House::all();
+        $houses = House::paginate(10);
         return view('house::index')->with('houses',$houses);
     }
 
@@ -111,14 +111,20 @@ class HouseController extends Controller
     public function getBySearch(Request $request) {
         $keyword = !empty($request->input('keyword'))?$request->input('keyword'):"";
         $houses = House::all();
-        if( $keyword != ""){
-            return view('house::index')
-                ->with('houses', House::where('street' , 'LIKE', '%'.$keyword.'%')->paginate(10))
-                ->with('keyword', $keyword);
-        } else {
-            return view('house::index')
-                ->with('houses', House::paginate(10))
-                ->with('keyword', $keyword);
-        } 
+        $houses = House::where('house_num', 'LIKE', "%{$keyword}%")
+        ->orWhere('street', 'LIKE', "%{$keyword}%")
+        ->orWhere('country', 'LIKE', "%{$keyword}%")
+        ->paginate(10);
+        
+        return view('house::index', compact('houses', 'keyword'));
+        // if( $keyword != ""){
+        //     return view('house::index')
+        //         ->with('houses', House::where('street' , 'LIKE', '%'.$keyword.'%')->paginate(10))
+        //         ->with('keyword', $keyword);
+        // } else {
+        //     return view('house::index')
+        //         ->with('houses', House::paginate(10))
+        //         ->with('keyword', $keyword);
+        // } 
     }
 }

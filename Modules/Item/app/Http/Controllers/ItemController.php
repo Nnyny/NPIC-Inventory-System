@@ -20,7 +20,7 @@ class ItemController extends Controller
      */
     public function index()
     {
-        $items = Item::all();
+        $items = Item::paginate(10);
         return view('item::index')->with('items',$items);
     }
 
@@ -44,7 +44,7 @@ class ItemController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'item_code' => 'required|max:20|min:3',
-            'item_img' => 'required|mimes:jpg,jpeg,png,gif',
+            'item_img' => 'required|mimes:jpg,jpeg,png,gif,webp',
             'item_name' => 'required|max:20|min:3',
             'category_id' => 'required|integer',
             'item_qty' => 'required|integer',
@@ -107,7 +107,7 @@ class ItemController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'item_code' => 'required|max:20|min:3',
-            'item_img' => 'required|mimes:jpg,jpeg,png,gif',
+            'item_img' => 'required|mimes:jpg,jpeg,png,gif,webp',
             'item_name' => 'required|max:20|min:3',
             'category_id' => 'required|integer',
             'item_qty' => 'required|integer',
@@ -121,6 +121,10 @@ class ItemController extends Controller
                 ->withErrors($validator);
         }
         $item = Item::find($id);
+        // $image = $request->file('item_img');
+        // $filename = time().$image->getClientOriginalName();
+        // move_uploaded_file($image->getPathName(), $filename);
+        
         // Create The Post
         if($request->file('item_img') != ""){
             $image = $request->file('item_img');
@@ -133,8 +137,8 @@ class ItemController extends Controller
         $item->item_name = $request->Input('item_name');
         $item->category_id = $request->Input('category_id');
         $item->item_qty = $request->Input('item_qty');
-        // $item->item_img = $request->Input('item_img');
-        if(isset($filename)){
+        // $item->item_img = $filename;
+        if(asset($filename)){
             $item->item_img = $filename;
         }
        
@@ -164,15 +168,22 @@ class ItemController extends Controller
     public function getBySearch(Request $request) {
         $keyword = !empty($request->input('keyword'))?$request->input('keyword'):"";
         $items = Item::all();
-        if( $keyword != ""){
-            return view('item::index')
-                ->with('items', Item::where('item_name' , 'LIKE', '%'.$keyword.'%')->paginate(10))
-                ->with('keyword', $keyword);
-        } else {
-            return view('item::index')
-                ->with('items', Item::paginate(10))
-                ->with('keyword', $keyword);
-        }
+        $items = Item::where('item_name', 'LIKE', "%{$keyword}%")
+        ->orWhere('item_code', 'LIKE', "%{$keyword}%")
+        ->paginate(10);
+        
+        return view('item::index', compact('items', 'keyword'));
+
+
+        // if( $keyword != ""){
+        //     return view('item::index')
+        //         ->with('items', Item::where('item_name' , 'LIKE', '%'.$keyword.'%')->paginate(10))
+        //         ->with('keyword', $keyword);
+        // } else {
+        //     return view('item::index')
+        //         ->with('items', Item::paginate(10))
+        //         ->with('keyword', $keyword);
+        // }
     }
 
 }

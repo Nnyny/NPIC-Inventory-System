@@ -1,4 +1,4 @@
-@extends('house::layouts.master')
+@extends('master')
 @section('content')
 <main>
 	<div class="container-fluid">

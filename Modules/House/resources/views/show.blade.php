@@ -1,4 +1,4 @@
-@extends('house::layouts.master')
+@extends('master')
 @section('content')
     <br>
     <h1>House Details</h1>

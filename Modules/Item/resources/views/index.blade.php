@@ -79,6 +79,10 @@
         </table>
     </div>
 </div>
+
+<!-- Pagination -->
+{{ $items->links('pagination::bootstrap-5');}}
+
 <script>
     $(".delete").click(function() {
         var form = $(this).closest('form');

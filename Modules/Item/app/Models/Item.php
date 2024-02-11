@@ -21,6 +21,6 @@ class Item extends Model
     
     protected static function newFactory(): ItemFactory
     {
-        //return ItemFactory::new();
+        return ItemFactory::new();
     }
 }

@@ -3,6 +3,8 @@
 namespace Modules\House\database\seeders;
 
 use Illuminate\Database\Seeder;
+use Modules\House\app\Models\House;
+
 
 class HouseDatabaseSeeder extends Seeder
 {
@@ -11,6 +13,6 @@ class HouseDatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // $this->call([]);
+        House::factory()->count(20)->create();
     }
 }

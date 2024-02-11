@@ -16,6 +16,6 @@ class House extends Model
     
     protected static function newFactory(): HouseFactory
     {
-        //return HouseFactory::new();
+        return HouseFactory::new();
     }
 }
