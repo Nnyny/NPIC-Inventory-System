@@ -170,7 +170,7 @@ class ItemController extends Controller
         $items = Item::all();
         $items = Item::where('item_name', 'LIKE', "%{$keyword}%")
         ->orWhere('item_code', 'LIKE', "%{$keyword}%")
-        ->paginate(10);
+        ->paginate(5);
         
         return view('item::index', compact('items', 'keyword'));
 
